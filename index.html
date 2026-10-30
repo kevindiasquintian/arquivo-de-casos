@@ -1,0 +1,1371 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Arquivo de Casos</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#D9CFB4" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#17140F" media="(prefers-color-scheme: dark)" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Casos" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%97%82%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#D9CFB4; --paper-2:#EFE8D6; --paper-3:#E3D9BE;
+    --ink:#2B2318; --ink-soft:#5B4F3D; --ink-faint:#7A6C52;
+    --line: rgba(43,35,24,0.16); --line-strong: rgba(43,35,24,0.30);
+    --brass:#8A5A1E; --brass-ink:#5C3B12;
+    --jogando:#2E6E8E; --jogando-ink:#1F4D63;
+    --joguei:#4F7942; --joguei-ink:#375A2D;
+    --estante:#B8860B; --estante-ink:#7E5A06;
+    --nao:#A63D33; --nao-ink:#7A2C24;
+    --shadow: 0 1px 2px rgba(43,35,24,0.10), 0 6px 16px -8px rgba(43,35,24,0.28);
+    --shadow-lg: 0 -8px 40px -12px rgba(43,35,24,0.45);
+    --focus:#2B6CB0; --radius:6px;
+    --nav-h: 3.6rem;
+    --safe-b: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#17140F; --paper-2:#231E15; --paper-3:#2B241A;
+      --ink:#EDE3CB; --ink-soft:#C2B594; --ink-faint:#9A8E72;
+      --line: rgba(237,227,203,0.14); --line-strong: rgba(237,227,203,0.26);
+      --brass:#D3A44E; --brass-ink:#E8C57E;
+      --jogando:#5FA8C9; --jogando-ink:#8CC5DE;
+      --joguei:#6FA85C; --joguei-ink:#94C983;
+      --estante:#D9AC44; --estante-ink:#E8C670;
+      --nao:#D97462; --nao-ink:#E89686;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 10px 24px -10px rgba(0,0,0,0.6);
+      --shadow-lg: 0 -8px 40px -12px rgba(0,0,0,0.8);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#17140F; --paper-2:#231E15; --paper-3:#2B241A;
+    --ink:#EDE3CB; --ink-soft:#C2B594; --ink-faint:#9A8E72;
+    --line: rgba(237,227,203,0.14); --line-strong: rgba(237,227,203,0.26);
+    --brass:#D3A44E; --brass-ink:#E8C57E;
+    --jogando:#5FA8C9; --jogando-ink:#8CC5DE;
+    --joguei:#6FA85C; --joguei-ink:#94C983;
+    --estante:#D9AC44; --estante-ink:#E8C670;
+    --nao:#D97462; --nao-ink:#E89686;
+    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 10px 24px -10px rgba(0,0,0,0.6);
+    --shadow-lg: 0 -8px 40px -12px rgba(0,0,0,0.8);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%; -webkit-tap-highlight-color: transparent;}
+  html.locked{ overflow:hidden; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    line-height:1.45; min-height:100vh;
+    padding-bottom: calc(var(--nav-h) + var(--safe-b) + 1rem);
+  }
+  ::selection{ background: var(--brass); color: var(--paper-2); }
+  button, input, select, textarea{ font-family: inherit; color: inherit; }
+  button{ cursor:pointer; }
+  :focus-visible{ outline: 2px solid var(--focus); outline-offset: 2px; }
+  [hidden]{ display:none !important; }
+  .mono{ font-family:"IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  .eyebrow{
+    font-family:"Special Elite","Courier New",monospace; letter-spacing:.06em;
+    text-transform:uppercase; font-size:.7rem; color: var(--ink-faint);
+  }
+
+  /* ---------- Masthead ---------- */
+  header.masthead{
+    background: linear-gradient(180deg, var(--paper-2), var(--paper));
+    border-bottom: 1px solid var(--line-strong);
+    padding: calc(.9rem + env(safe-area-inset-top, 0px)) 1rem .9rem;
+  }
+  .mast-inner{ max-width:74rem; margin:0 auto; display:flex; flex-direction:column; gap:.8rem; }
+  .mast-row{ display:flex; align-items:center; justify-content:space-between; gap:.75rem; }
+  .mast-title h1{
+    font-family:"Special Elite","Courier New",monospace; font-weight:400;
+    font-size: clamp(1.4rem, 1.1rem + 1.6vw, 2.1rem); margin:.1rem 0 0; letter-spacing:.01em;
+  }
+  .mast-actions{ display:flex; align-items:center; gap:.4rem; }
+  .sync{
+    display:inline-flex; align-items:center; gap:.35rem; font-size:.7rem; color:var(--ink-soft);
+    border:1px solid var(--line); border-radius:999px; padding:.2rem .55rem; background:var(--paper-2);
+    white-space:nowrap;
+  }
+  .sync i{ width:.45rem; height:.45rem; border-radius:50%; background:var(--ink-faint); display:block; }
+  .sync[data-s="live"] i{ background:var(--joguei); box-shadow:0 0 0 3px color-mix(in srgb, var(--joguei) 25%, transparent); }
+  .sync[data-s="offline"] i{ background:var(--estante); }
+  .sync[data-s="demo"] i{ background:var(--nao); }
+  .icon-btn{
+    width:2.5rem; height:2.5rem; border-radius:50%; border:1px solid var(--line-strong);
+    background:var(--paper-2); display:inline-flex; align-items:center; justify-content:center; font-size:1.1rem;
+  }
+  .stats{ display:grid; grid-template-columns: repeat(4, 1fr); gap:.4rem; }
+  .stat{
+    border:1px solid var(--line); border-radius:var(--radius); background:var(--paper-2);
+    padding:.45rem .55rem; text-align:left; display:flex; flex-direction:column; gap:.15rem;
+  }
+  .stat[aria-pressed="true"]{ border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+  .stat .n{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:1.2rem; line-height:1; }
+  .stat .l{ font-size:.62rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); }
+  .stat.s-jogando .n{ color:var(--jogando-ink); } .stat.s-joguei .n{ color:var(--joguei-ink); }
+  .stat.s-estante .n, .stat.s-quero .n{ color:var(--estante-ink); } .stat.s-nao .n{ color:var(--nao-ink); }
+
+  /* ---------- Toolbar ---------- */
+  .toolbar{
+    position:sticky; top:0; z-index:20;
+    background: color-mix(in srgb, var(--paper) 94%, transparent);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border-bottom:1px solid var(--line); padding:.6rem 1rem .5rem;
+  }
+  .tb-inner{ max-width:74rem; margin:0 auto; display:flex; flex-direction:column; gap:.5rem; }
+  .tb-top{ display:flex; gap:.5rem; align-items:center; }
+  .top-tabs{ display:none; }
+  .search{ position:relative; flex:1 1 auto; }
+  .search input{
+    width:100%; padding:.6rem 2.2rem .6rem 2.1rem; border-radius:999px;
+    border:1px solid var(--line-strong); background:var(--paper-2); font-size:16px;
+  }
+  .search input::placeholder{ color:var(--ink-faint); }
+  .search svg{ position:absolute; left:.75rem; top:50%; transform:translateY(-50%); width:15px; height:15px; color:var(--ink-faint); pointer-events:none; }
+  .search .clear{
+    position:absolute; right:.35rem; top:50%; transform:translateY(-50%); border:none; background:transparent;
+    width:1.9rem; height:1.9rem; border-radius:50%; color:var(--ink-faint); font-size:.95rem;
+  }
+  .chip-row{
+    display:flex; gap:.4rem; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+    margin: 0 -1rem; padding: 0 1rem 2px; scroll-padding: 0 1rem;
+  }
+  .chip-row::-webkit-scrollbar{ display:none; }
+  .chip{
+    border:1px solid var(--line-strong); background:var(--paper-2); color:var(--ink-soft);
+    padding:.4rem .8rem; border-radius:999px; font-size:.8rem; white-space:nowrap; flex-shrink:0;
+    display:inline-flex; align-items:center; gap:.35rem;
+  }
+  .chip .dot{ width:.5rem; height:.5rem; border-radius:50%; }
+  .chip[aria-pressed="true"]{ background:var(--ink); color:var(--paper-2); border-color:var(--ink); }
+  .chip.tag-chip{ border-style:dashed; }
+  .chip.tag-chip[aria-pressed="true"]{ border-style:solid; }
+  .chip-sep{ width:1px; background:var(--line-strong); flex-shrink:0; margin:.2rem .1rem; }
+  .result-count{ font-size:.72rem; color:var(--ink-faint); display:flex; justify-content:space-between; gap:.5rem; }
+  .result-count button{ border:none; background:none; color:var(--brass-ink); font-size:.72rem; padding:0; text-decoration:underline; }
+
+  .dot.jogando{ background:var(--jogando);} .dot.joguei{ background:var(--joguei);}
+  .dot.estante, .dot.quero{ background:var(--estante);} .dot.nao{ background:var(--nao);}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    border:1px solid var(--line-strong); background:var(--paper-2); color:var(--ink);
+    padding:.65rem 1rem; border-radius:var(--radius); font-size:.9rem; font-weight:600;
+    display:inline-flex; align-items:center; justify-content:center; gap:.4rem; min-height:2.75rem;
+  }
+  .btn:active{ transform: translateY(1px); }
+  .btn-primary{ background:var(--brass); border-color:var(--brass); color:var(--paper-2); }
+  .btn-danger{ color:var(--nao-ink); border-color: color-mix(in srgb, var(--nao) 50%, transparent); background:transparent; }
+  .btn-ghost{ background:transparent; border-color:transparent; }
+  .btn-sm{ padding:.35rem .7rem; font-size:.78rem; min-height:2.1rem; }
+
+  /* ---------- Main ---------- */
+  main{ max-width:74rem; margin:0 auto; padding: .9rem .75rem 5rem; }
+  .empty-note{ text-align:center; color:var(--ink-faint); padding:2.5rem 1rem; font-size:.92rem; }
+  .welcome{
+    border:1px dashed var(--line-strong); background:var(--paper-2); border-radius:var(--radius);
+    padding:1.4rem 1.2rem; text-align:center; margin:1rem 0;
+  }
+  .welcome h2{ font-family:"Special Elite",monospace; font-weight:400; margin:.2rem 0 .5rem; }
+  .welcome p{ color:var(--ink-soft); font-size:.9rem; margin:.3rem 0 1rem; }
+
+  details.group{
+    margin-bottom:.6rem; border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--paper-2); overflow:hidden;
+  }
+  details.group > summary{
+    list-style:none; cursor:pointer; display:flex; align-items:center; gap:.6rem;
+    padding:.65rem .5rem .65rem .7rem; background:var(--paper-3); min-height:3.3rem;
+  }
+  details.group[open] > summary{ border-bottom:1px solid var(--line); }
+  details.group > summary::-webkit-details-marker{ display:none; }
+  .g-icon{
+    font-size:1.1rem; width:2.1rem; height:2.1rem; display:flex; align-items:center; justify-content:center;
+    border-radius:var(--radius); background:var(--paper); border:1px solid var(--line); flex-shrink:0;
+  }
+  .g-text{ flex:1 1 auto; min-width:0; display:flex; flex-direction:column; gap:.25rem; }
+  .g-title{ font-weight:600; font-size:.95rem; line-height:1.25; }
+  .g-sub{ font-size:.72rem; color:var(--ink-faint); }
+  .g-bar{ display:flex; height:4px; border-radius:2px; overflow:hidden; background:var(--line); max-width:14rem; }
+  .g-bar span{ display:block; height:100%; }
+  .g-bar .jogando{ background:var(--jogando);} .g-bar .joguei{ background:var(--joguei);}
+  .g-bar .estante{ background:var(--estante);} .g-bar .nao{ background: color-mix(in srgb, var(--nao) 45%, transparent);}
+  .g-count{ font-family:"IBM Plex Mono",monospace; font-size:.74rem; color:var(--ink-faint); white-space:nowrap; }
+  .g-btn{
+    width:2.25rem; height:2.25rem; border-radius:50%; border:1px solid var(--line); background:var(--paper);
+    display:inline-flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; color:var(--ink-soft);
+  }
+  .g-caret{ width:.75rem; height:.75rem; color:var(--ink-faint); transition:transform .15s; flex-shrink:0; }
+  details.group[open] > summary .g-caret{ transform:rotate(90deg); }
+
+  .company{ border-top:1px solid var(--line); }
+  .company:first-child{ border-top:none; }
+  .company-head{
+    display:flex; align-items:center; gap:.5rem; padding:.55rem .75rem .2rem;
+  }
+  .company-head h3{ margin:0; font-size:.82rem; font-weight:600; flex:1; color:var(--ink-soft); }
+  .company-head .g-count{ font-size:.7rem; }
+
+  .cards{ display:flex; flex-direction:column; gap:.4rem; padding:.5rem; }
+
+  .card{
+    display:grid; grid-template-columns: auto 1fr auto; align-items:center; gap:.65rem;
+    background:var(--paper); border:1px solid var(--line); border-radius:var(--radius);
+    padding:.5rem .5rem .5rem .5rem; min-height:4rem;
+  }
+  .card.no-thumb{ grid-template-columns: 1fr auto; padding-left:.8rem; }
+  .card[data-status="nao"]{ border-style:dashed; }
+  .card[data-status="nao"] .card-body, .card[data-status="nao"] .thumb{ opacity:.72; }
+  .thumb{
+    width:3.1rem; height:3.1rem; border-radius:4px; background:var(--paper-3); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; overflow:hidden; padding:0; font-size:1.2rem; flex-shrink:0;
+  }
+  .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .card-body{
+    min-width:0; border:none; background:none; text-align:left; padding:.15rem 0; display:flex; flex-direction:column; gap:.25rem;
+  }
+  .card-name{ font-size:.88rem; font-weight:500; line-height:1.3; overflow-wrap:anywhere; }
+  .card-meta{ display:flex; flex-wrap:wrap; gap:.25rem; }
+  .badge{
+    font-family:"IBM Plex Mono",monospace; font-size:.62rem; text-transform:uppercase; letter-spacing:.03em;
+    color:var(--ink-faint); border:1px solid var(--line); border-radius:999px; padding:.05rem .45rem;
+  }
+  .badge{ white-space:nowrap; }
+  .badge.tag{ font-family:"IBM Plex Sans",sans-serif; text-transform:none; letter-spacing:0; font-size:.66rem; background:var(--paper-2); }
+  .pill{
+    display:inline-flex; align-items:center; gap:.35rem; padding:.45rem .65rem; border-radius:999px;
+    border:1px solid var(--line-strong); background:var(--paper-2); font-size:.74rem; font-weight:600; white-space:nowrap;
+    min-height:2.2rem;
+  }
+  .pill .dot{ width:.5rem; height:.5rem; border-radius:50%; flex-shrink:0; }
+  .pill.jogando{ color:var(--jogando-ink);} .pill.joguei{ color:var(--joguei-ink);}
+  .pill.estante, .pill.quero{ color:var(--estante-ink);} .pill.nao{ color:var(--nao-ink);}
+
+  /* ---------- Bottom nav + FAB ---------- */
+  .bottom-nav{
+    position:fixed; left:0; right:0; bottom:0; z-index:30;
+    height: calc(var(--nav-h) + var(--safe-b)); padding-bottom: var(--safe-b);
+    display:grid; grid-template-columns:1fr 1fr;
+    background: color-mix(in srgb, var(--paper-2) 96%, transparent);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border-top:1px solid var(--line-strong);
+  }
+  .bottom-nav button{
+    border:none; background:none; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:.1rem; font-size:.7rem; color:var(--ink-faint); font-weight:600; letter-spacing:.02em;
+  }
+  .bottom-nav button .ic{ font-size:1.25rem; line-height:1; filter: grayscale(1); opacity:.7; }
+  .bottom-nav button[aria-selected="true"]{ color:var(--ink); }
+  .bottom-nav button[aria-selected="true"] .ic{ filter:none; opacity:1; }
+  .fab{
+    position:fixed; right:1rem; bottom: calc(var(--nav-h) + var(--safe-b) + 1rem); z-index:31;
+    height:3.5rem; padding:0 1.2rem; border-radius:999px; border:none; background:var(--brass); color:var(--paper-2);
+    font-weight:700; font-size:.95rem; box-shadow: 0 8px 22px -8px rgba(0,0,0,.55);
+    display:inline-flex; align-items:center; gap:.4rem;
+  }
+  .fab span{ font-size:1.4rem; line-height:1; margin-top:-2px; }
+
+  /* ---------- Sheet ---------- */
+  .scrim{
+    position:fixed; inset:0; z-index:60; background:rgba(20,16,10,.5);
+    opacity:0; transition:opacity .2s; display:flex; align-items:flex-end; justify-content:center;
+  }
+  .scrim.show{ opacity:1; }
+  .sheet{
+    width:100%; max-height:92vh; max-height:92dvh; background:var(--paper-2); color:var(--ink);
+    border-radius: 14px 14px 0 0; box-shadow: var(--shadow-lg);
+    transform: translateY(100%); transition: transform .24s cubic-bezier(.2,.8,.2,1);
+    display:flex; flex-direction:column; padding-bottom: var(--safe-b);
+  }
+  .scrim.show .sheet{ transform: translateY(0); }
+  .sheet-grab{ width:2.6rem; height:4px; border-radius:2px; background:var(--line-strong); margin:.5rem auto 0; flex-shrink:0; }
+  .sheet-head{ display:flex; align-items:center; gap:.5rem; padding:.55rem 1rem .5rem; flex-shrink:0; }
+  .sheet-head h2{ margin:0; font-family:"Special Elite",monospace; font-weight:400; font-size:1.15rem; flex:1; line-height:1.25; }
+  .sheet-body{ overflow-y:auto; padding:.25rem 1rem 1rem; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
+  .sheet-foot{
+    display:flex; gap:.5rem; padding:.7rem 1rem; border-top:1px solid var(--line); flex-shrink:0; flex-wrap:wrap;
+  }
+  .sheet-foot .grow{ flex:1; }
+
+  .field{ display:flex; flex-direction:column; gap:.3rem; margin-bottom:.85rem; }
+  .field > label, .field-label{ font-size:.7rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.05em; font-weight:600; }
+  .field input, .field select, .field textarea{
+    padding:.65rem .7rem; border-radius:var(--radius); border:1px solid var(--line-strong);
+    background:var(--paper); font-size:16px; width:100%;
+  }
+  .row2{ display:grid; grid-template-columns: 1fr 1fr; gap:.6rem; }
+  .row-emoji{ display:grid; grid-template-columns: 4.5rem 1fr; gap:.6rem; }
+  .seg{ display:grid; grid-template-columns: 1fr 1fr; gap:.4rem; }
+  .seg button{
+    border:1px solid var(--line-strong); background:var(--paper); border-radius:var(--radius);
+    padding:.65rem .6rem; font-size:.88rem; font-weight:600; display:flex; align-items:center; gap:.45rem; min-height:2.9rem;
+  }
+  .seg button .dot{ width:.6rem; height:.6rem; border-radius:50%; }
+  .seg button[aria-pressed="true"]{ border-color:var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); background:var(--paper-3); }
+  .tag-toggles{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .photo-row{ display:flex; gap:.8rem; align-items:center; margin-bottom:.9rem; }
+  .photo-row .thumb{ width:5.5rem; height:5.5rem; font-size:2rem; }
+  .photo-actions{ display:flex; flex-direction:column; gap:.4rem; align-items:flex-start; }
+  .status-list{ display:flex; flex-direction:column; gap:.45rem; }
+  .status-list button{
+    display:flex; align-items:center; gap:.7rem; padding:.85rem 1rem; border-radius:var(--radius);
+    border:1px solid var(--line-strong); background:var(--paper); font-size:1rem; font-weight:600; text-align:left;
+  }
+  .status-list button .dot{ width:.75rem; height:.75rem; border-radius:50%; }
+  .status-list button[aria-pressed="true"]{ border-color:var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+  .status-list button .check{ margin-left:auto; }
+  .menu-list{ display:flex; flex-direction:column; }
+  .menu-list button{
+    display:flex; align-items:center; gap:.8rem; padding:.9rem .3rem; border:none; border-bottom:1px solid var(--line);
+    background:none; font-size:.98rem; text-align:left;
+  }
+  .menu-list button:last-child{ border-bottom:none; }
+  .menu-list .ic{ width:1.6rem; text-align:center; font-size:1.15rem; }
+  .menu-list small{ display:block; color:var(--ink-faint); font-size:.75rem; }
+  .tag-row{ display:flex; gap:.4rem; align-items:center; padding:.45rem 0; border-bottom:1px solid var(--line); }
+  .tag-row input{ flex:1; padding:.5rem .6rem; border-radius:var(--radius); border:1px solid var(--line-strong); background:var(--paper); font-size:16px; min-width:0; }
+  .tag-row .cnt{ font-size:.72rem; color:var(--ink-faint); width:3.2rem; text-align:right; }
+  .hint{ font-size:.78rem; color:var(--ink-faint); margin:.2rem 0 .8rem; }
+
+  /* ---------- Toast / Lightbox ---------- */
+  .toast{
+    position:fixed; left:50%; bottom: calc(var(--nav-h) + var(--safe-b) + 5.2rem); z-index:90;
+    transform:translateX(-50%) translateY(20px); opacity:0; pointer-events:none;
+    background:var(--ink); color:var(--paper-2); padding:.6rem 1rem; border-radius:999px; font-size:.84rem;
+    box-shadow:var(--shadow); transition: opacity .2s, transform .2s; max-width: calc(100vw - 2rem); text-align:center;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  .toast.err{ background:var(--nao-ink); }
+  .lightbox{
+    position:fixed; inset:0; z-index:100; background:rgba(15,12,8,.9); display:flex; align-items:center; justify-content:center;
+    padding:3.5rem 1rem 2rem; flex-direction:column; gap:.7rem;
+  }
+  .lightbox img{ max-width:100%; max-height:75vh; border-radius:var(--radius); background:var(--paper-2); }
+  .lightbox p{ color:#F4EEDD; margin:0; text-align:center; font-size:.9rem; }
+  .lightbox .x{
+    position:fixed; top: calc(1rem + env(safe-area-inset-top,0px)); right:1rem; width:2.6rem; height:2.6rem; border-radius:50%;
+    border:1px solid rgba(255,255,255,.35); background:rgba(0,0,0,.35); color:#fff; font-size:1.1rem;
+  }
+  .demo-banner{
+    background: color-mix(in srgb, var(--nao) 16%, var(--paper-2)); color:var(--nao-ink);
+    font-size:.78rem; padding:.5rem 1rem; text-align:center; border-bottom:1px solid var(--line);
+  }
+
+  /* ---------- Desktop ---------- */
+  @media (min-width: 48rem){
+    body{ padding-bottom: 2rem; }
+    header.masthead{ padding: 1.4rem 1.25rem 1rem; }
+    .mast-inner{ flex-direction:row; align-items:flex-end; justify-content:space-between; }
+    .mast-row{ flex:1; }
+    .stats{ grid-template-columns: repeat(4, 6.2rem); }
+    .toolbar{ padding: .7rem 1.25rem .55rem; }
+    .chip-row{ margin:0; padding:0 0 2px; flex-wrap:wrap; overflow:visible; }
+    .top-tabs{ display:flex; border:1px solid var(--line-strong); border-radius:999px; overflow:hidden; flex-shrink:0; }
+    .top-tabs button{ border:none; background:var(--paper-2); padding:.55rem 1rem; font-size:.84rem; font-weight:600; color:var(--ink-soft); }
+    .top-tabs button[aria-selected="true"]{ background:var(--ink); color:var(--paper-2); }
+    .bottom-nav{ display:none; }
+    .fab{ bottom:1.5rem; right:1.5rem; }
+    .toast{ bottom: 6rem; }
+    main{ padding: 1.1rem 1.25rem 4rem; }
+    .cards{ display:grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap:.55rem; padding:.7rem; }
+    .card{ grid-template-columns: auto 1fr; align-items:start; }
+    .card .pill{ grid-column: 2; justify-self:start; margin-top:-.15rem; min-height:1.9rem; padding:.3rem .6rem; }
+    .card.no-thumb .pill{ grid-column:1; }
+    .card.no-thumb{ grid-template-columns: 1fr; }
+    .scrim{ align-items:center; padding:1.5rem; }
+    .sheet{ max-width:32rem; border-radius:12px; transform: translateY(16px) scale(.98); opacity:0; transition: transform .2s, opacity .2s; max-height: 88vh; }
+    .scrim.show .sheet{ transform:none; opacity:1; }
+    .sheet-grab{ display:none; }
+    .sheet-head{ padding-top:1rem; }
+  }
+  @media (prefers-reduced-motion: reduce){ *{ transition-duration:.001ms !important; } }
+</style>
+</head>
+<body>
+
+<div class="demo-banner" id="demo-banner" hidden>
+  Modo demonstração: os dados ficam só neste navegador. Preencha o <b>firebase-config.js</b> para ativar o modo compartilhado.
+</div>
+
+<header class="masthead">
+  <div class="mast-inner">
+    <div class="mast-row">
+      <div class="mast-title">
+        <div class="eyebrow" id="eyebrow">Coleção · escape rooms &amp; mystery games</div>
+        <h1>Arquivo de Casos</h1>
+      </div>
+      <div class="mast-actions">
+        <span class="sync" id="sync" data-s="loading"><i></i><span>Conectando…</span></span>
+        <button class="icon-btn" id="menu-btn" type="button" aria-label="Menu">⋯</button>
+      </div>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="tb-inner">
+    <div class="tb-top">
+      <div class="top-tabs" role="tablist">
+        <button type="button" role="tab" data-tab="games">🎲 Jogos</button>
+        <button type="button" role="tab" data-tab="rooms">🔐 Escape Rooms</button>
+      </div>
+      <label class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" id="search" placeholder="Buscar…" autocomplete="off" enterkeyhint="search" />
+        <button type="button" class="clear" id="search-clear" aria-label="Limpar busca" hidden>✕</button>
+      </label>
+    </div>
+    <div class="chip-row" id="chips"></div>
+    <div class="result-count"><span id="result-count"></span><button type="button" id="toggle-all"></button></div>
+  </div>
+</div>
+
+<main id="main"></main>
+
+<button class="fab" id="fab" type="button"><span>+</span><b id="fab-label">Novo jogo</b></button>
+
+<nav class="bottom-nav" role="tablist">
+  <button type="button" role="tab" data-tab="games"><span class="ic">🎲</span>Jogos</button>
+  <button type="button" role="tab" data-tab="rooms"><span class="ic">🔐</span>Escape Rooms</button>
+</nav>
+
+<div class="toast" id="toast"></div>
+<input type="file" id="file-import" accept="application/json,.json" hidden />
+
+<script type="module">
+import { firebaseConfig } from './firebase-config.js';
+
+/* ======================================================================
+   Constantes
+   ====================================================================== */
+const GAME_STATUS = [
+  { v:'jogando', label:'Jogando' },
+  { v:'joguei',  label:'Joguei' },
+  { v:'estante', label:'Na estante' },
+  { v:'nao',     label:'Não comprado' },
+];
+const ROOM_STATUS = [
+  { v:'joguei', label:'Joguei' },
+  { v:'quero',  label:'Quero jogar' },
+];
+const GAME_RANK = { jogando:0, joguei:1, estante:2, nao:3 };
+const MISC_KEY = 'outros';
+const FS_VERSION = '10.12.2';
+const LS = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v==null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} },
+};
+
+const $ = (s, el=document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm = s => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const collator = new Intl.Collator('pt-BR', { sensitivity:'base', numeric:true });
+const cmp = (a,b) => collator.compare(a||'', b||'');
+const slug = s => norm(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'serie';
+const hashTag = t => String(t).startsWith('#') ? t : '#' + t;
+const uniq = arr => [...new Set(arr.filter(Boolean))];
+
+/* ======================================================================
+   Armazenamento — Firebase (compartilhado) ou local (demonstração)
+   Coleções: series/{key}, games/{id}, rooms/{id}, meta/tags
+   ====================================================================== */
+function emptyData(){ return { series:{}, games:{}, rooms:{}, meta:{ tags:[], roomTags:[] } }; }
+
+async function makeFirebaseStore(cfg){
+  const base = `https://www.gstatic.com/firebasejs/${FS_VERSION}`;
+  const [{ initializeApp }, fs, au] = await Promise.all([
+    import(`${base}/firebase-app.js`), import(`${base}/firebase-firestore.js`), import(`${base}/firebase-auth.js`)
+  ]);
+  const app = initializeApp(cfg);
+  let db;
+  try{
+    db = fs.initializeFirestore(app, { ignoreUndefinedProperties:true, localCache: fs.persistentLocalCache({ tabManager: fs.persistentMultipleTabManager() }) });
+  }catch(e){ db = fs.getFirestore(app); }
+  const auth = au.getAuth(app);
+  let authError = null;
+  const authReady = au.signInAnonymously(auth).catch(e => { authError = e; console.warn('Auth anônima falhou', e); });
+
+  const data = emptyData();
+  const loaded = { series:false, games:false, rooms:false, meta:false };
+  const status = { mode:'live', live:false };
+  let listener = () => {};
+  const emit = () => { if (Object.values(loaded).every(Boolean)) listener(data, status); };
+  const onErr = err => { console.error(err); status.error = err.message; emit(); toast('Erro de conexão: ' + err.code, true); };
+
+  for (const name of ['series','games','rooms']){
+    fs.onSnapshot(fs.collection(db, name), { includeMetadataChanges:true }, snap => {
+      snap.docChanges().forEach(ch => {
+        if (ch.type === 'removed') delete data[name][ch.doc.id];
+        else data[name][ch.doc.id] = ch.doc.data();
+      });
+      loaded[name] = true;
+      status.live = !snap.metadata.fromCache;
+      emit();
+    }, onErr);
+  }
+  fs.onSnapshot(fs.doc(db, 'meta', 'tags'), snap => {
+    const d = snap.exists() ? snap.data() : {};
+    data.meta = { tags: d.tags || [], roomTags: d.roomTags || [] };
+    loaded.meta = true; emit();
+  }, onErr);
+  window.addEventListener('online', emit); window.addEventListener('offline', emit);
+
+  async function commit(ops){
+    await authReady;
+    if (authError) throw new Error('Login anônimo desativado no Firebase (Authentication → Anônimo).');
+    for (let i = 0; i < ops.length; i += 400){
+      const b = fs.writeBatch(db);
+      for (const op of ops.slice(i, i+400)){
+        const ref = fs.doc(db, op.col, op.id);
+        if (op.type === 'delete') b.delete(ref);
+        else if (op.type === 'update') b.update(ref, op.data);
+        else if (op.merge) b.set(ref, op.data, { merge:true });
+        else b.set(ref, op.data);
+      }
+      await b.commit();
+    }
+  }
+  return {
+    mode:'live',
+    subscribe(fn){ listener = fn; emit(); },
+    commit,
+    snapshot(){ return data; },
+  };
+}
+
+function makeLocalStore(){
+  const KEY = 'arquivo-casos-demo-v1';
+  let data = LS.get(KEY, null) || emptyData();
+  let listener = () => {};
+  const status = { mode:'demo', live:false };
+  return {
+    mode:'demo',
+    subscribe(fn){ listener = fn; setTimeout(() => listener(data, status), 0); },
+    async commit(ops){
+      for (const op of ops){
+        const col = op.col === 'meta' ? null : data[op.col];
+        if (op.col === 'meta'){ data.meta = op.merge ? { ...data.meta, ...op.data } : { tags:[], roomTags:[], ...op.data }; continue; }
+        if (op.type === 'delete') delete col[op.id];
+        else if (op.type === 'update' || op.merge) col[op.id] = { ...(col[op.id]||{}), ...op.data };
+        else col[op.id] = { ...op.data };
+      }
+      try{ localStorage.setItem(KEY, JSON.stringify(data)); }
+      catch(e){ throw new Error('Sem espaço no navegador para salvar (modo demonstração).'); }
+      listener(data, status);
+    },
+    snapshot(){ return data; },
+  };
+}
+
+/* ======================================================================
+   Estado da interface
+   ====================================================================== */
+const ui = {
+  tab: location.hash === '#salas' ? 'rooms' : 'games',
+  games: { status:'all', tag:null, q:'' },
+  rooms: { status:'all', tag:null, q:'' },
+  open: new Set(LS.get('open-groups', [])),
+  loaded: false,
+};
+let store, DATA = emptyData(), STATUS = {};
+
+function saveOpen(){ LS.set('open-groups', [...ui.open]); }
+
+/* ---------- Derivados ---------- */
+function seriesList(){
+  return Object.entries(DATA.series).map(([key, s]) => ({ key, ...s }))
+    .sort((a,b) => (a.key===MISC_KEY) - (b.key===MISC_KEY) || cmp(a.label, b.label));
+}
+function gamesBySeries(){
+  const m = {};
+  for (const [id, g] of Object.entries(DATA.games)){
+    (m[g.series] ||= []).push({ id, ...g });
+  }
+  for (const k in m) m[k].sort((a,b) => (GAME_RANK[a.status]??9) - (GAME_RANK[b.status]??9) || (a.order??0) - (b.order??0) || cmp(a.name,b.name));
+  return m;
+}
+function allGameTags(){
+  const used = Object.values(DATA.games).flatMap(g => g.tags || []);
+  return uniq([...(DATA.meta.tags||[]), ...used]);
+}
+function allRoomTags(){
+  const used = Object.values(DATA.rooms).flatMap(r => r.tags || []);
+  return uniq([...(DATA.meta.roomTags||[]), ...used]);
+}
+function roomStatus(v){ return ROOM_STATUS.find(s => s.v===v) || { v, label: v==='nao' ? 'Quero jogar' : (v||'—') }; }
+function gameStatus(v){ return GAME_STATUS.find(s => s.v===v) || GAME_STATUS[3]; }
+
+/* ======================================================================
+   Renderização
+   ====================================================================== */
+function render(){
+  document.body.dataset.tab = ui.tab;
+  document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === ui.tab)));
+  $('#fab-label').textContent = ui.tab === 'games' ? 'Novo jogo' : 'Nova sala';
+  $('#search').value = ui[ui.tab].q;
+  $('#search').placeholder = ui.tab === 'games' ? 'Buscar jogo ou série…' : 'Buscar sala, empresa ou cidade…';
+  $('#search-clear').hidden = !ui[ui.tab].q;
+  renderSync(); renderStats(); renderChips();
+  if (!ui.loaded){ $('#main').innerHTML = '<p class="empty-note">Abrindo o arquivo…</p>'; return; }
+  if (ui.tab === 'games') renderGames(); else renderRooms();
+}
+
+function renderSync(){
+  const el = $('#sync');
+  let s, t;
+  if (!store){ s='loading'; t='Conectando…'; }
+  else if (store.mode === 'demo'){ s='demo'; t='Demonstração'; }
+  else if (!navigator.onLine || !STATUS.live){ s='offline'; t= navigator.onLine ? 'Sincronizando…' : 'Offline'; }
+  else { s='live'; t='Ao vivo'; }
+  el.dataset.s = s; el.lastElementChild.textContent = t;
+}
+
+function renderStats(){
+  const el = $('#stats');
+  if (ui.tab === 'games'){
+    const c = { jogando:0, joguei:0, estante:0, nao:0 };
+    for (const g of Object.values(DATA.games)) if (g.status in c) c[g.status]++;
+    el.style.gridTemplateColumns = '';
+    el.innerHTML = GAME_STATUS.map(s => `
+      <button type="button" class="stat s-${s.v}" data-stat="${s.v}" aria-pressed="${ui.games.status===s.v}">
+        <span class="n">${c[s.v]}</span><span class="l">${s.label}</span>
+      </button>`).join('');
+  } else {
+    const rooms = Object.values(DATA.rooms);
+    const played = rooms.filter(r => r.status === 'joguei').length;
+    const cities = uniq(rooms.map(r => `${r.country}|${r.state}|${r.city}`)).length;
+    const comps = uniq(rooms.map(r => `${r.city}|${r.company}`)).length;
+    el.innerHTML = `
+      <button type="button" class="stat s-joguei" data-stat="joguei" aria-pressed="${ui.rooms.status==='joguei'}"><span class="n">${played}</span><span class="l">Jogadas</span></button>
+      <button type="button" class="stat s-quero" data-stat="quero" aria-pressed="${ui.rooms.status==='quero'}"><span class="n">${rooms.length-played}</span><span class="l">Quero jogar</span></button>
+      <div class="stat"><span class="n">${comps}</span><span class="l">Empresas</span></div>
+      <div class="stat"><span class="n">${cities}</span><span class="l">Cidades</span></div>`;
+  }
+}
+
+function renderChips(){
+  const f = ui[ui.tab];
+  const statuses = ui.tab === 'games' ? GAME_STATUS : ROOM_STATUS;
+  const tags = ui.tab === 'games' ? allGameTags() : allRoomTags();
+  $('#chips').innerHTML =
+    `<button type="button" class="chip" data-fs="all" aria-pressed="${f.status==='all'}">Todos</button>` +
+    statuses.map(s => `<button type="button" class="chip" data-fs="${s.v}" aria-pressed="${f.status===s.v}"><span class="dot ${s.v}"></span>${s.label}</button>`).join('') +
+    (tags.length ? '<span class="chip-sep"></span>' : '') +
+    tags.map(t => `<button type="button" class="chip tag-chip" data-ft="${esc(t)}" aria-pressed="${f.tag===t}">${esc(hashTag(t))}</button>`).join('');
+}
+
+function thumbHTML(item, fallback){
+  return item.img
+    ? `<button type="button" class="thumb" data-act="zoom" aria-label="Ampliar foto"><img src="${item.img}" alt="" loading="lazy" decoding="async"></button>`
+    : `<button type="button" class="thumb" data-act="edit" aria-label="Editar">${esc(fallback)}</button>`;
+}
+function metaHTML(item){
+  const b = [];
+  if (item.note) b.push(`<span class="badge">${esc(item.note)}</span>`);
+  for (const t of item.tags || []) b.push(`<span class="badge tag">${esc(t)}</span>`);
+  return b.length ? `<span class="card-meta">${b.join('')}</span>` : '';
+}
+
+function groupOpen(id, forced){ return forced || ui.open.has(id); }
+
+function renderGames(){
+  const f = ui.games, q = norm(f.q.trim());
+  const by = gamesBySeries();
+  const list = seriesList();
+  let shown = 0, total = Object.keys(DATA.games).length;
+  const html = [];
+  const visibleGroups = [];
+
+  if (!total && !list.length){ renderWelcome(); return; }
+
+  for (const s of list){
+    const all = by[s.key] || [];
+    const seriesMatch = q && norm(s.label).includes(q);
+    const items = all.filter(g =>
+      (f.status === 'all' || g.status === f.status) &&
+      (!f.tag || (g.tags||[]).includes(f.tag)) &&
+      (!q || seriesMatch || norm(g.name).includes(q) || norm(g.note).includes(q))
+    );
+    const filtering = f.status !== 'all' || f.tag || q;
+    if (filtering && !items.length) continue;
+    shown += items.length;
+    const gid = 'g:' + s.key;
+    visibleGroups.push(gid);
+    const c = { jogando:0, joguei:0, estante:0, nao:0 };
+    all.forEach(g => { if (g.status in c) c[g.status]++; });
+    const n = all.length || 1;
+    const bar = ['jogando','joguei','estante','nao'].map(k => c[k] ? `<span class="${k}" style="width:${c[k]/n*100}%"></span>` : '').join('');
+    html.push(`
+      <details class="group" data-gid="${esc(gid)}" ${groupOpen(gid, !!q) ? 'open' : ''}>
+        <summary>
+          <span class="g-icon">${esc(s.emoji || '🗂️')}</span>
+          <span class="g-text">
+            <span class="g-title">${esc(s.label)}</span>
+            <span class="g-bar">${bar}</span>
+          </span>
+          <span class="g-count">${c.joguei + c.jogando}/${all.length}</span>
+          <button type="button" class="g-btn" data-act="add-in" data-series="${esc(s.key)}" aria-label="Adicionar jogo em ${esc(s.label)}">+</button>
+          <button type="button" class="g-btn" data-act="edit-series" data-series="${esc(s.key)}" aria-label="Editar série">✎</button>
+          <svg class="g-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 6 15 12 9 18"/></svg>
+        </summary>
+        <div class="cards">
+          ${items.map(g => `
+            <article class="card" data-id="${esc(g.id)}" data-kind="game" data-status="${esc(g.status)}">
+              ${thumbHTML(g, s.emoji || '🗂️')}
+              <button type="button" class="card-body" data-act="edit">
+                <span class="card-name">${esc(g.name)}</span>${metaHTML(g)}
+              </button>
+              <button type="button" class="pill ${esc(g.status)}" data-act="status"><span class="dot ${esc(g.status)}"></span>${gameStatus(g.status).label}</button>
+            </article>`).join('') || '<p class="empty-note" style="padding:1rem">Nenhum jogo nesta série ainda.</p>'}
+        </div>
+      </details>`);
+  }
+  $('#main').innerHTML = html.join('') || '<p class="empty-note">Nenhum jogo encontrado com esse filtro.</p>';
+  setCount(shown, total, 'jogo', 'jogos', visibleGroups);
+}
+
+function renderRooms(){
+  const f = ui.rooms, q = norm(f.q.trim());
+  const rooms = Object.entries(DATA.rooms).map(([id, r]) => ({ id, ...r }));
+  const total = rooms.length;
+  if (!total && !Object.keys(DATA.series).length){ renderWelcome(); return; }
+  const items = rooms.filter(r =>
+    (f.status === 'all' || r.status === f.status || (f.status==='quero' && r.status==='nao')) &&
+    (!f.tag || (r.tags||[]).includes(f.tag)) &&
+    (!q || [r.name, r.company, r.city, r.state, r.country, r.note].some(x => norm(x).includes(q)))
+  );
+  // agrupa por local (país/estado/cidade) → empresa
+  const places = {};
+  for (const r of items){
+    const pk = [r.country||'', r.state||'', r.city||''].join('|');
+    const p = places[pk] ||= { country:r.country, state:r.state, city:r.city, companies:{} };
+    (p.companies[r.company || '—'] ||= []).push(r);
+  }
+  const allByPlace = {};
+  for (const r of rooms){ const pk = [r.country||'', r.state||'', r.city||''].join('|'); allByPlace[pk] = (allByPlace[pk]||0) + 1; }
+  const keys = Object.keys(places).sort((a,b) => {
+    const A = places[a], B = places[b];
+    return (A.country!=='Brasil') - (B.country!=='Brasil') || cmp(A.country,B.country) || cmp(A.state,B.state) || cmp(A.city,B.city);
+  });
+  const visibleGroups = [];
+  const html = keys.map(pk => {
+    const p = places[pk];
+    const gid = 'r:' + pk; visibleGroups.push(gid);
+    const comps = Object.keys(p.companies).sort(cmp);
+    const n = comps.reduce((a,c) => a + p.companies[c].length, 0);
+    return `
+      <details class="group" data-gid="${esc(gid)}" ${groupOpen(gid, !!q) ? 'open' : ''}>
+        <summary>
+          <span class="g-icon">📍</span>
+          <span class="g-text">
+            <span class="g-title">${esc(p.city || 'Sem cidade')}</span>
+            <span class="g-sub">${esc([p.state, p.country].filter(Boolean).join(' · '))} · ${comps.length} empresa${comps.length>1?'s':''}</span>
+          </span>
+          <span class="g-count">${n}${n!==allByPlace[pk] ? '/'+allByPlace[pk] : ''}</span>
+          <button type="button" class="g-btn" data-act="add-room-in" data-place="${esc(pk)}" aria-label="Adicionar sala em ${esc(p.city)}">+</button>
+          <svg class="g-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 6 15 12 9 18"/></svg>
+        </summary>
+        ${comps.map(c => {
+          const list = p.companies[c].sort((a,b) => cmp(a.name,b.name));
+          return `<section class="company">
+            <div class="company-head">
+              <h3>🏢 ${esc(c)}</h3><span class="g-count">${list.length}</span>
+              <button type="button" class="g-btn" style="width:1.9rem;height:1.9rem;font-size:.9rem" data-act="add-room-in" data-place="${esc(pk)}" data-company="${esc(c)}" aria-label="Adicionar sala em ${esc(c)}">+</button>
+            </div>
+            <div class="cards">
+              ${list.map(r => `
+                <article class="card no-thumb" data-id="${esc(r.id)}" data-kind="room" data-status="${esc(r.status)}">
+                  <button type="button" class="card-body" data-act="edit">
+                    <span class="card-name">${esc(r.name)}</span>${metaHTML(r)}
+                  </button>
+                  <button type="button" class="pill ${esc(r.status==='nao'?'quero':r.status)}" data-act="status"><span class="dot ${esc(r.status==='nao'?'quero':r.status)}"></span>${esc(roomStatus(r.status).label)}</button>
+                </article>`).join('')}
+            </div>
+          </section>`;
+        }).join('')}
+      </details>`;
+  }).join('');
+  $('#main').innerHTML = html || '<p class="empty-note">Nenhuma sala encontrada com esse filtro.</p>';
+  setCount(items.length, total, 'sala', 'salas', visibleGroups);
+}
+
+function setCount(shown, total, one, many, groups){
+  const filtering = ui[ui.tab].status !== 'all' || ui[ui.tab].tag || ui[ui.tab].q;
+  $('#result-count').textContent = filtering ? `Mostrando ${shown} de ${total} ${total===1?one:many}` : `${total} ${total===1?one:many}`;
+  const anyClosed = groups.some(g => !ui.open.has(g));
+  const btn = $('#toggle-all');
+  btn.hidden = !groups.length || !!ui[ui.tab].q;
+  btn.textContent = anyClosed ? 'Abrir todas' : 'Fechar todas';
+  btn.onclick = () => {
+    groups.forEach(g => anyClosed ? ui.open.add(g) : ui.open.delete(g));
+    saveOpen(); render();
+  };
+}
+
+function renderWelcome(){
+  $('#main').innerHTML = `
+    <div class="welcome">
+      <div class="eyebrow">Arquivo vazio</div>
+      <h2>Vamos abrir o primeiro caso</h2>
+      <p>Importe o backup JSON exportado do app antigo para trazer todos os jogos, salas, fotos e tags.</p>
+      <button type="button" class="btn btn-primary" data-act="import">Importar backup</button>
+    </div>`;
+  $('#result-count').textContent = ''; $('#toggle-all').hidden = true;
+}
+
+/* ======================================================================
+   Gravação (com aviso)
+   ====================================================================== */
+async function write(ops, msg){
+  try{ await store.commit(ops); if (msg) toast(msg); return true; }
+  catch(e){ console.error(e); toast('Não foi possível salvar: ' + (e.message||e), true); return false; }
+}
+
+/* ======================================================================
+   Sheets (painéis)
+   ====================================================================== */
+let currentSheet = null;
+function openSheet({ title, body, foot, onMount }){
+  closeSheet(true);
+  const scrim = document.createElement('div');
+  scrim.className = 'scrim';
+  scrim.innerHTML = `
+    <div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(title)}">
+      <div class="sheet-grab"></div>
+      <div class="sheet-head"><h2>${esc(title)}</h2><button type="button" class="icon-btn" data-close aria-label="Fechar" style="width:2.2rem;height:2.2rem;font-size:.95rem">✕</button></div>
+      <div class="sheet-body">${body}</div>
+      ${foot ? `<div class="sheet-foot">${foot}</div>` : ''}
+    </div>`;
+  document.body.appendChild(scrim);
+  document.documentElement.classList.add('locked');
+  requestAnimationFrame(() => scrim.classList.add('show'));
+  scrim.addEventListener('click', e => { if (e.target === scrim || e.target.closest('[data-close]')) closeSheet(); });
+  // arrastar para baixo para fechar (celular)
+  const sheet = scrim.firstElementChild;
+  let y0 = null;
+  sheet.querySelector('.sheet-head').addEventListener('touchstart', e => { y0 = e.touches[0].clientY; }, { passive:true });
+  sheet.querySelector('.sheet-grab').addEventListener('touchstart', e => { y0 = e.touches[0].clientY; }, { passive:true });
+  sheet.addEventListener('touchmove', e => { if (y0==null) return; const dy = e.touches[0].clientY - y0; if (dy>0) sheet.style.transform = `translateY(${dy}px)`; }, { passive:true });
+  sheet.addEventListener('touchend', e => {
+    if (y0==null) return; const dy = e.changedTouches[0].clientY - y0; y0 = null; sheet.style.transform = '';
+    if (dy > 90) closeSheet();
+  });
+  currentSheet = scrim;
+  onMount && onMount(sheet);
+  return sheet;
+}
+function closeSheet(instant){
+  const s = currentSheet; if (!s) return;
+  currentSheet = null;
+  document.documentElement.classList.remove('locked');
+  if (instant){ s.remove(); return; }
+  s.classList.remove('show'); setTimeout(() => s.remove(), 220);
+}
+function confirmSheet(title, text, okLabel='Confirmar', danger=true){
+  return new Promise(res => {
+    openSheet({
+      title, body:`<p style="margin:.2rem 0 .4rem;color:var(--ink-soft)">${text}</p>`,
+      foot:`<button type="button" class="btn grow" data-no>Cancelar</button><button type="button" class="btn ${danger?'btn-danger':'btn-primary'} grow" data-yes>${esc(okLabel)}</button>`,
+      onMount(sh){
+        sh.querySelector('[data-no]').onclick = () => { closeSheet(); res(false); };
+        sh.querySelector('[data-yes]').onclick = () => { closeSheet(); res(true); };
+      }
+    });
+  });
+}
+
+function segHTML(list, value, name){
+  return `<div class="seg" data-seg="${name}">${list.map(s =>
+    `<button type="button" data-v="${s.v}" aria-pressed="${s.v===value}"><span class="dot ${s.v}"></span>${s.label}</button>`).join('')}</div>`;
+}
+function bindSeg(sh, name){
+  const box = sh.querySelector(`[data-seg="${name}"]`);
+  box.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    box.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
+  });
+  return () => box.querySelector('[aria-pressed="true"]')?.dataset.v;
+}
+function tagTogglesHTML(all, selected){
+  if (!all.length) return '<p class="hint">Nenhuma tag criada ainda (menu ⋯ → Gerenciar tags).</p>';
+  return `<div class="tag-toggles">${all.map(t =>
+    `<button type="button" class="chip tag-chip" data-tag="${esc(t)}" aria-pressed="${selected.includes(t)}">${esc(hashTag(t))}</button>`).join('')}</div>`;
+}
+function bindTags(sh){
+  sh.querySelectorAll('[data-tag]').forEach(b => b.onclick = () => b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed')!=='true')));
+  return () => [...sh.querySelectorAll('[data-tag][aria-pressed="true"]')].map(b => b.dataset.tag);
+}
+
+/* ---------- Status rápido ---------- */
+function openStatusSheet(kind, id){
+  const item = kind === 'game' ? DATA.games[id] : DATA.rooms[id];
+  if (!item) return;
+  const list = kind === 'game' ? GAME_STATUS : ROOM_STATUS;
+  const cur = kind === 'room' && item.status === 'nao' ? 'quero' : item.status;
+  openSheet({
+    title: item.name,
+    body: `<div class="status-list">${list.map(s =>
+      `<button type="button" data-v="${s.v}" aria-pressed="${s.v===cur}"><span class="dot ${s.v}"></span>${s.label}<span class="check">${s.v===cur?'✓':''}</span></button>`).join('')}</div>`,
+    onMount(sh){
+      sh.querySelectorAll('.status-list button').forEach(b => b.onclick = () => {
+        closeSheet();
+        if (b.dataset.v !== cur)
+          write([{ type:'update', col: kind==='game'?'games':'rooms', id, data:{ status:b.dataset.v, updatedAt: Date.now() } }], `${list.find(s=>s.v===b.dataset.v).label} ✓`);
+      });
+    }
+  });
+}
+
+/* ---------- Jogo: criar/editar ---------- */
+function seriesOptions(sel){
+  return seriesList().map(s => `<option value="${esc(s.key)}" ${s.key===sel?'selected':''}>${esc((s.emoji||'')+' '+s.label)}</option>`).join('') +
+    `<option value="__new">+ Nova série…</option>`;
+}
+
+function openGameSheet(id, presetSeries){
+  const editing = !!id;
+  const g = editing ? { ...DATA.games[id] } : { name:'', series: presetSeries || seriesList()[0]?.key || '__new', status:'estante', note:'', tags:[], img:null };
+  if (editing && !DATA.games[id]) return;
+  let img = g.img || null;
+  const ser = DATA.series[g.series];
+  openSheet({
+    title: editing ? 'Editar jogo' : 'Novo jogo',
+    body: `
+      <div class="photo-row">
+        <button type="button" class="thumb" data-photo>${img ? `<img src="${img}" alt="">` : esc(ser?.emoji || '🗂️')}</button>
+        <div class="photo-actions">
+          <label class="btn btn-sm"><input type="file" accept="image/*" hidden data-file>📷 ${img?'Trocar foto':'Adicionar foto'}</label>
+          <button type="button" class="btn btn-sm btn-ghost" data-rmphoto ${img?'':'hidden'}>Remover foto</button>
+        </div>
+      </div>
+      <div class="field"><label for="g-name">Nome do jogo</label><input id="g-name" value="${esc(g.name)}" placeholder="Ex: Exit: A Cripta Perdida" autocomplete="off"></div>
+      <div class="field"><label for="g-series">Série</label><select id="g-series">${seriesOptions(g.series)}</select></div>
+      <div class="row-emoji" data-newseries ${g.series==='__new'?'':'hidden'}>
+        <div class="field"><label for="g-ns-emoji">Ícone</label><input id="g-ns-emoji" value="🗂️" maxlength="4"></div>
+        <div class="field"><label for="g-ns-label">Nome da nova série</label><input id="g-ns-label" placeholder="Ex: Detective Club"></div>
+      </div>
+      <div class="field"><span class="field-label">Status</span>${segHTML(GAME_STATUS, g.status, 'st')}</div>
+      <div class="field"><label for="g-note">Observação</label><input id="g-note" value="${esc(g.note||'')}" placeholder="Ex: box, fita, 2/3 jogados" autocomplete="off"></div>
+      <div class="field"><span class="field-label">Tags</span>${tagTogglesHTML(allGameTags(), g.tags||[])}</div>`,
+    foot: `${editing ? '<button type="button" class="btn btn-danger" data-del>Apagar</button>' : ''}<span class="grow"></span>
+           <button type="button" class="btn" data-close>Cancelar</button><button type="button" class="btn btn-primary" data-save>Salvar</button>`,
+    onMount(sh){
+      const getSt = bindSeg(sh, 'st'), getTags = bindTags(sh);
+      const sel = sh.querySelector('#g-series');
+      sel.onchange = () => { sh.querySelector('[data-newseries]').hidden = sel.value !== '__new'; };
+      const ph = sh.querySelector('[data-photo]');
+      const setImg = v => {
+        img = v;
+        ph.innerHTML = v ? `<img src="${v}" alt="">` : esc(DATA.series[sel.value]?.emoji || '🗂️');
+        sh.querySelector('[data-rmphoto]').hidden = !v;
+      };
+      sh.querySelector('[data-file]').onchange = async e => {
+        const f = e.target.files[0]; if (!f) return;
+        try{ setImg(await compressImage(f)); }catch(err){ toast('Não consegui ler essa imagem', true); }
+      };
+      sh.querySelector('[data-rmphoto]').onclick = () => setImg(null);
+      ph.onclick = () => img && openLightbox(img, sh.querySelector('#g-name').value);
+      if (!editing) setTimeout(() => sh.querySelector('#g-name').focus(), 250);
+
+      sh.querySelector('[data-save]').onclick = async () => {
+        const name = sh.querySelector('#g-name').value.trim();
+        if (!name){ toast('Dá um nome pro jogo', true); return; }
+        const ops = [];
+        let series = sel.value;
+        if (series === '__new'){
+          const label = sh.querySelector('#g-ns-label').value.trim();
+          if (!label){ toast('Dá um nome pra nova série', true); return; }
+          let key = slug(label), i = 2; while (DATA.series[key]) key = slug(label) + '-' + (i++);
+          ops.push({ type:'set', col:'series', id:key, data:{ label, emoji: sh.querySelector('#g-ns-emoji').value.trim() || '🗂️' } });
+          series = key;
+        }
+        const data = { series, name, status:getSt(), note: sh.querySelector('#g-note').value.trim() || null, tags:getTags(), img: img || null, updatedAt: Date.now() };
+        const gid = editing ? id : `${series}-${Date.now()}`;
+        if (!editing) data.order = Date.now();
+        ops.push({ type:'set', col:'games', id:gid, data, merge: editing });
+        closeSheet();
+        if (series !== g.series || !editing){ ui.open.add('g:'+series); saveOpen(); }
+        await write(ops, editing ? 'Jogo atualizado' : 'Jogo adicionado');
+      };
+      const del = sh.querySelector('[data-del]');
+      if (del) del.onclick = async () => {
+        if (await confirmSheet('Apagar jogo?', `“${esc(g.name)}” vai sumir para todo mundo.`, 'Apagar'))
+          write([{ type:'delete', col:'games', id }], 'Jogo apagado');
+      };
+    }
+  });
+}
+
+/* ---------- Série: editar ---------- */
+function openSeriesSheet(key){
+  const s = DATA.series[key]; if (!s) return;
+  const items = Object.entries(DATA.games).filter(([,g]) => g.series === key);
+  openSheet({
+    title: 'Editar série',
+    body: `<div class="row-emoji">
+        <div class="field"><label for="s-emoji">Ícone</label><input id="s-emoji" value="${esc(s.emoji||'')}" maxlength="4"></div>
+        <div class="field"><label for="s-label">Nome</label><input id="s-label" value="${esc(s.label)}"></div>
+      </div>
+      <p class="hint">${items.length} jogo${items.length===1?'':'s'} nesta série.${key===MISC_KEY ? ' A Miscelânea fica sempre por último na lista.' : ''}</p>`,
+    foot: `<button type="button" class="btn btn-danger" data-del>Apagar série</button><span class="grow"></span>
+           <button type="button" class="btn" data-close>Cancelar</button><button type="button" class="btn btn-primary" data-save>Salvar</button>`,
+    onMount(sh){
+      sh.querySelector('[data-save]').onclick = () => {
+        const label = sh.querySelector('#s-label').value.trim(); if (!label) return toast('Nome vazio', true);
+        closeSheet();
+        write([{ type:'set', col:'series', id:key, data:{ label, emoji: sh.querySelector('#s-emoji').value.trim() || '🗂️' }, merge:true }], 'Série atualizada');
+      };
+      sh.querySelector('[data-del]').onclick = async () => {
+        const ok = await confirmSheet('Apagar série?', items.length
+          ? `“${esc(s.label)}” e os <b>${items.length} jogos</b> dentro dela vão ser apagados para todo mundo.`
+          : `“${esc(s.label)}” vai ser apagada.`, 'Apagar');
+        if (ok) write([...items.map(([id]) => ({ type:'delete', col:'games', id })), { type:'delete', col:'series', id:key }], 'Série apagada');
+      };
+    }
+  });
+}
+
+/* ---------- Sala: criar/editar ---------- */
+function openRoomSheet(id, preset={}){
+  const editing = !!id;
+  if (editing && !DATA.rooms[id]) return;
+  const r = editing ? { ...DATA.rooms[id] } : { name:'', country:'Brasil', state:'', city:'', company:'', status:'joguei', note:'', tags:[], ...preset };
+  const rooms = Object.values(DATA.rooms);
+  const dl = (field) => uniq(rooms.map(x => x[field])).sort(cmp).map(v => `<option value="${esc(v)}">`).join('');
+  openSheet({
+    title: editing ? 'Editar sala' : 'Nova sala',
+    body: `
+      <div class="field"><label for="r-name">Nome da sala</label><input id="r-name" value="${esc(r.name)}" placeholder="Ex: O Porão do Dr. Kiefern" autocomplete="off"></div>
+      <div class="field"><label for="r-company">Empresa</label><input id="r-company" list="dl-company" value="${esc(r.company)}" autocomplete="off"></div>
+      <div class="row2">
+        <div class="field"><label for="r-city">Cidade</label><input id="r-city" list="dl-city" value="${esc(r.city)}" autocomplete="off"></div>
+        <div class="field"><label for="r-state">Estado</label><input id="r-state" list="dl-state" value="${esc(r.state)}" autocomplete="off"></div>
+      </div>
+      <div class="field"><label for="r-country">País</label><input id="r-country" list="dl-country" value="${esc(r.country)}" autocomplete="off"></div>
+      <datalist id="dl-company">${dl('company')}</datalist><datalist id="dl-city">${dl('city')}</datalist>
+      <datalist id="dl-state">${dl('state')}</datalist><datalist id="dl-country">${dl('country')}</datalist>
+      <div class="field"><span class="field-label">Status</span>${segHTML(ROOM_STATUS, r.status==='nao'?'quero':r.status, 'st')}</div>
+      <div class="field"><label for="r-note">Observação</label><input id="r-note" value="${esc(r.note||'')}" autocomplete="off"></div>
+      <div class="field"><span class="field-label">Tags</span>${tagTogglesHTML(allRoomTags(), r.tags||[])}</div>`,
+    foot: `${editing ? '<button type="button" class="btn btn-danger" data-del>Apagar</button>' : ''}<span class="grow"></span>
+           <button type="button" class="btn" data-close>Cancelar</button><button type="button" class="btn btn-primary" data-save>Salvar</button>`,
+    onMount(sh){
+      const getSt = bindSeg(sh, 'st'), getTags = bindTags(sh);
+      // ao escolher uma empresa conhecida, preenche o local
+      sh.querySelector('#r-company').addEventListener('change', e => {
+        const known = rooms.find(x => x.company === e.target.value.trim());
+        if (known && !sh.querySelector('#r-city').value){
+          sh.querySelector('#r-city').value = known.city||''; sh.querySelector('#r-state').value = known.state||''; sh.querySelector('#r-country').value = known.country||'';
+        }
+      });
+      if (!editing) setTimeout(() => sh.querySelector('#r-name').focus(), 250);
+      const v = s => sh.querySelector(s).value.trim();
+      sh.querySelector('[data-save]').onclick = () => {
+        if (!v('#r-name')){ toast('Dá um nome pra sala', true); return; }
+        const data = { name:v('#r-name'), company:v('#r-company'), city:v('#r-city'), state:v('#r-state'), country:v('#r-country'),
+          status:getSt(), note: v('#r-note') || null, tags:getTags(), updatedAt: Date.now() };
+        const rid = editing ? id : `room-${Date.now()}`;
+        closeSheet();
+        ui.open.add('r:' + [data.country, data.state, data.city].join('|')); saveOpen();
+        write([{ type:'set', col:'rooms', id:rid, data, merge: editing }], editing ? 'Sala atualizada' : 'Sala adicionada');
+      };
+      const del = sh.querySelector('[data-del]');
+      if (del) del.onclick = async () => {
+        if (await confirmSheet('Apagar sala?', `“${esc(r.name)}” vai sumir para todo mundo.`, 'Apagar'))
+          write([{ type:'delete', col:'rooms', id }], 'Sala apagada');
+      };
+    }
+  });
+}
+
+/* ---------- Tags ---------- */
+function openTagsSheet(){
+  const isGames = ui.tab === 'games';
+  const metaKey = isGames ? 'tags' : 'roomTags';
+  const col = isGames ? 'games' : 'rooms';
+  const tags = isGames ? allGameTags() : allRoomTags();
+  const items = Object.entries(DATA[col]);
+  const count = t => items.filter(([,x]) => (x.tags||[]).includes(t)).length;
+  openSheet({
+    title: isGames ? 'Tags dos jogos' : 'Tags das salas',
+    body: `<p class="hint">As tags de ${isGames?'jogos':'escape rooms'} são separadas das de ${isGames?'escape rooms':'jogos'}.</p>
+      <div data-list>${tags.map(t => `
+        <div class="tag-row" data-t="${esc(t)}">
+          <input value="${esc(t)}" aria-label="Nome da tag">
+          <span class="cnt">${count(t)} uso${count(t)===1?'':'s'}</span>
+          <button type="button" class="btn btn-sm" data-ren>Salvar</button>
+          <button type="button" class="btn btn-sm btn-danger" data-rm aria-label="Apagar">🗑</button>
+        </div>`).join('') || '<p class="hint">Nenhuma tag.</p>'}</div>
+      <div class="tag-row" style="border:none;margin-top:.6rem">
+        <input id="new-tag" placeholder="Nova tag…" autocomplete="off"><button type="button" class="btn btn-sm btn-primary" data-add>Adicionar</button>
+      </div>`,
+    onMount(sh){
+      const reopen = () => setTimeout(openTagsSheet, 260);
+      sh.querySelector('[data-add]').onclick = async () => {
+        const t = sh.querySelector('#new-tag').value.trim(); if (!t) return;
+        if (tags.includes(t)) return toast('Essa tag já existe', true);
+        await write([{ type:'set', col:'meta', id:'tags', data:{ [metaKey]: [...tags, t] }, merge:true }], 'Tag criada');
+        closeSheet(true); openTagsSheet();
+      };
+      sh.querySelectorAll('.tag-row[data-t]').forEach(row => {
+        const old = row.dataset.t;
+        row.querySelector('[data-ren]').onclick = async () => {
+          const nu = row.querySelector('input').value.trim();
+          if (!nu || nu === old) return;
+          if (tags.includes(nu)) return toast('Já existe uma tag com esse nome', true);
+          const ops = items.filter(([,x]) => (x.tags||[]).includes(old))
+            .map(([id,x]) => ({ type:'update', col, id, data:{ tags: x.tags.map(t => t===old ? nu : t) } }));
+          ops.push({ type:'set', col:'meta', id:'tags', data:{ [metaKey]: tags.map(t => t===old ? nu : t) }, merge:true });
+          if (ui[ui.tab].tag === old) ui[ui.tab].tag = nu;
+          await write(ops, 'Tag renomeada');
+          closeSheet(true); openTagsSheet();
+        };
+        row.querySelector('[data-rm]').onclick = async () => {
+          const n = count(old);
+          const ok = await confirmSheet('Apagar tag?', `A tag “${esc(old)}” será removida${n ? ` de ${n} ${isGames?'jogo':'sala'}${n>1?'s':''}` : ''}.`, 'Apagar');
+          if (!ok){ reopen(); return; }
+          const ops = items.filter(([,x]) => (x.tags||[]).includes(old))
+            .map(([id,x]) => ({ type:'update', col, id, data:{ tags: x.tags.filter(t => t!==old) } }));
+          ops.push({ type:'set', col:'meta', id:'tags', data:{ [metaKey]: tags.filter(t => t!==old) }, merge:true });
+          if (ui[ui.tab].tag === old) ui[ui.tab].tag = null;
+          await write(ops, 'Tag apagada');
+          reopen();
+        };
+      });
+    }
+  });
+}
+
+/* ---------- Menu ---------- */
+function openMenu(){
+  const theme = document.documentElement.dataset.theme || 'auto';
+  const themeLabel = { auto:'Automático', light:'Claro', dark:'Escuro' }[theme];
+  openSheet({
+    title: 'Menu',
+    body: `<div class="menu-list">
+      <button type="button" data-m="tags"><span class="ic">🏷️</span><span>Gerenciar tags<small>${ui.tab==='games'?'Tags dos jogos':'Tags das escape rooms'}</small></span></button>
+      <button type="button" data-m="export"><span class="ic">⬇️</span><span>Exportar backup<small>Baixa um JSON com tudo (fotos incluídas)</small></span></button>
+      <button type="button" data-m="import"><span class="ic">⬆️</span><span>Importar backup<small>Substitui todos os dados pelo arquivo</small></span></button>
+      <button type="button" data-m="theme"><span class="ic">🌓</span><span>Tema: ${themeLabel}<small>Toque para alternar</small></span></button>
+      <button type="button" data-m="share"><span class="ic">🔗</span><span>Copiar link do site<small>Quem tiver o link pode ver e editar</small></span></button>
+    </div>`,
+    onMount(sh){
+      sh.querySelector('[data-m="tags"]').onclick = () => { closeSheet(true); openTagsSheet(); };
+      sh.querySelector('[data-m="export"]').onclick = () => { closeSheet(); exportBackup(); };
+      sh.querySelector('[data-m="import"]').onclick = () => { closeSheet(); $('#file-import').click(); };
+      sh.querySelector('[data-m="theme"]').onclick = () => {
+        const next = { auto:'light', light:'dark', dark:'auto' }[theme];
+        if (next === 'auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = next;
+        LS.set('theme', next); closeSheet(true); openMenu();
+      };
+      sh.querySelector('[data-m="share"]').onclick = async () => {
+        const url = location.href.split('#')[0];
+        try{ if (navigator.share) await navigator.share({ title:'Arquivo de Casos', url }); else { await navigator.clipboard.writeText(url); toast('Link copiado'); } }catch(e){}
+        closeSheet();
+      };
+    }
+  });
+}
+
+/* ======================================================================
+   Backup: exportar / importar (mesmo formato do app antigo)
+   ====================================================================== */
+function buildBackup(){
+  const by = gamesBySeries();
+  const strip = ({ series, order, updatedAt, ...rest }) => rest;
+  const series = seriesList().map(s => ({
+    key: s.key, label: s.label, emoji: s.emoji,
+    items: (by[s.key] || []).slice().sort((a,b) => (a.order??0)-(b.order??0)).map(g => ({ id:g.id, ...strip(g) }))
+  }));
+  const rooms = Object.entries(DATA.rooms).map(([id, r]) => ({ id, ...r })).sort((a,b) => (a.order??Infinity)-(b.order??Infinity))
+    .map(({ order, updatedAt, ...r }) => r);
+  const all = Object.values(DATA.games);
+  const counts = {}; all.forEach(g => counts[g.status] = (counts[g.status]||0)+1);
+  return { series, total: all.length, counts, rooms, tags: DATA.meta.tags||[], roomTags: DATA.meta.roomTags||[], exportedAt: new Date().toISOString() };
+}
+function exportBackup(){
+  const blob = new Blob([JSON.stringify(buildBackup(), null, 2)], { type:'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `arquivo-de-casos-backup-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  toast('Backup baixado');
+}
+
+function backupToOps(b){
+  if (!b || !Array.isArray(b.series)) throw new Error('Arquivo não parece um backup do Arquivo de Casos.');
+  const ops = [];
+  const seen = { series:new Set(), games:new Set(), rooms:new Set() };
+  b.series.forEach((s, si) => {
+    if (!s.key) return;
+    seen.series.add(s.key);
+    ops.push({ type:'set', col:'series', id:s.key, data:{ label: s.label || s.key, emoji: s.emoji || '🗂️' } });
+    (s.items || []).forEach((it, i) => {
+      if (!it.id) it.id = `${s.key}-${Date.now()}-${i}`;
+      seen.games.add(it.id);
+      ops.push({ type:'set', col:'games', id:it.id, data:{
+        series: s.key, name: it.name || '(sem nome)', status: it.status || 'estante', note: it.note ?? null,
+        img: it.img ?? null, tags: Array.isArray(it.tags) ? it.tags : [], order: si*1000 + i } });
+    });
+  });
+  (b.rooms || []).forEach((r, i) => {
+    const { id, ...rest } = r; const rid = id || `room-${Date.now()}-${i}`;
+    seen.rooms.add(rid);
+    ops.push({ type:'set', col:'rooms', id:rid, data:{ country:'', state:'', city:'', company:'', status:'joguei', note:null, ...rest, tags: Array.isArray(r.tags) ? r.tags : [], order:i } });
+  });
+  ops.push({ type:'set', col:'meta', id:'tags', data:{ tags: b.tags || [], roomTags: b.roomTags || [] } });
+  // apaga o que existe hoje e não está no backup
+  for (const col of ['series','games','rooms'])
+    for (const id of Object.keys(DATA[col])) if (!seen[col].has(id)) ops.push({ type:'delete', col, id });
+  return { ops, nGames: seen.games.size, nSeries: seen.series.size, nRooms: seen.rooms.size };
+}
+
+$('#file-import').addEventListener('change', async e => {
+  const f = e.target.files[0]; e.target.value = '';
+  if (!f) return;
+  let parsed;
+  try{ parsed = backupToOps(JSON.parse(await f.text())); }
+  catch(err){ toast(err.message || 'Arquivo inválido', true); return; }
+  const hasData = Object.keys(DATA.games).length || Object.keys(DATA.rooms).length;
+  const ok = await confirmSheet('Importar backup?',
+    `O arquivo tem <b>${parsed.nGames} jogos</b> em ${parsed.nSeries} séries e <b>${parsed.nRooms} escape rooms</b>.` +
+    (hasData ? `<br><br>Isso <b>substitui tudo</b> o que está no site agora, para todo mundo. Se quiser, exporte um backup antes.` : ''),
+    'Importar', !!hasData);
+  if (!ok) return;
+  toast('Importando…');
+  if (await write(parsed.ops)) toast(`Importado: ${parsed.nGames} jogos e ${parsed.nRooms} salas`);
+});
+
+/* ======================================================================
+   Utilidades: imagem, lightbox, toast
+   ====================================================================== */
+function compressImage(file, max=480, q=0.8){
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(file);
+    const im = new Image();
+    im.onload = () => {
+      const s = Math.min(1, max / Math.max(im.width, im.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(im.width*s); c.height = Math.round(im.height*s);
+      c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      let d = c.toDataURL('image/webp', q);
+      if (!d.startsWith('data:image/webp')) d = c.toDataURL('image/jpeg', q);
+      res(d);
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); rej(new Error('img')); };
+    im.src = url;
+  });
+}
+function openLightbox(src, caption){
+  const lb = document.createElement('div');
+  lb.className = 'lightbox';
+  lb.innerHTML = `<button type="button" class="x" aria-label="Fechar">✕</button><img src="${src}" alt=""><p>${esc(caption||'')}</p>`;
+  lb.onclick = e => { if (e.target.tagName !== 'IMG') lb.remove(); };
+  document.body.appendChild(lb);
+}
+let toastT;
+function toast(msg, err=false){
+  const t = $('#toast'); t.textContent = msg; t.classList.toggle('err', err); t.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), err ? 4200 : 2000);
+}
+
+/* ======================================================================
+   Eventos
+   ====================================================================== */
+document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => {
+  if (ui.tab === b.dataset.tab){ window.scrollTo({ top:0, behavior:'smooth' }); return; }
+  ui.tab = b.dataset.tab;
+  history.replaceState(null, '', ui.tab === 'rooms' ? '#salas' : location.pathname + location.search);
+  window.scrollTo(0,0); render();
+}));
+let searchT;
+$('#search').addEventListener('input', e => {
+  clearTimeout(searchT);
+  searchT = setTimeout(() => { ui[ui.tab].q = e.target.value; $('#search-clear').hidden = !e.target.value; renderStats(); (ui.tab==='games'?renderGames:renderRooms)(); }, 120);
+});
+$('#search-clear').addEventListener('click', () => { ui[ui.tab].q = ''; render(); $('#search').focus(); });
+$('#chips').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  const f = ui[ui.tab];
+  if (b.dataset.fs) f.status = b.dataset.fs;
+  if (b.dataset.ft !== undefined) f.tag = f.tag === b.dataset.ft ? null : b.dataset.ft;
+  render();
+});
+$('#stats').addEventListener('click', e => {
+  const b = e.target.closest('[data-stat]'); if (!b) return;
+  const f = ui[ui.tab]; f.status = f.status === b.dataset.stat ? 'all' : b.dataset.stat; render();
+});
+$('#menu-btn').addEventListener('click', openMenu);
+$('#fab').addEventListener('click', () => ui.tab === 'games' ? openGameSheet() : openRoomSheet());
+
+$('#main').addEventListener('click', e => {
+  const act = e.target.closest('[data-act]');
+  if (act && act.closest('summary')) e.preventDefault();
+  if (!act){
+    const sum = e.target.closest('summary');
+    if (sum && !ui[ui.tab].q){
+      const d = sum.parentElement;
+      setTimeout(() => { d.open ? ui.open.add(d.dataset.gid) : ui.open.delete(d.dataset.gid); saveOpen(); }, 0);
+    }
+    return;
+  }
+  const card = act.closest('.card');
+  const kind = card?.dataset.kind, id = card?.dataset.id;
+  switch (act.dataset.act){
+    case 'edit': kind === 'game' ? openGameSheet(id) : openRoomSheet(id); break;
+    case 'status': openStatusSheet(kind, id); break;
+    case 'zoom': { const g = DATA.games[id]; if (g?.img) openLightbox(g.img, g.name); break; }
+    case 'add-in': openGameSheet(null, act.dataset.series); break;
+    case 'edit-series': openSeriesSheet(act.dataset.series); break;
+    case 'add-room-in': {
+      const [country, state, city] = act.dataset.place.split('|');
+      openRoomSheet(null, { country, state, city, company: act.dataset.company && act.dataset.company !== '—' ? act.dataset.company : '' });
+      break;
+    }
+    case 'import': $('#file-import').click(); break;
+  }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape'){ const lb = $('.lightbox'); if (lb) lb.remove(); else closeSheet(); }
+});
+
+/* ======================================================================
+   Inicialização
+   ====================================================================== */
+(function initTheme(){ const t = LS.get('theme','auto'); if (t !== 'auto') document.documentElement.dataset.theme = t; })();
+render();
+
+(async () => {
+  const configured = firebaseConfig && firebaseConfig.apiKey && firebaseConfig.projectId;
+  try{
+    store = configured ? await makeFirebaseStore(firebaseConfig) : makeLocalStore();
+  }catch(e){
+    console.error(e);
+    toast('Não consegui carregar o Firebase — abrindo em modo local', true);
+    store = makeLocalStore();
+  }
+  $('#demo-banner').hidden = store.mode !== 'demo';
+  let raf;
+  store.subscribe((data, status) => {
+    DATA = data; STATUS = status; ui.loaded = true;
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      const y = window.scrollY;
+      render();
+      window.scrollTo(0, y);
+    });
+  });
+})();
+</script>
+</body>
+</html>
